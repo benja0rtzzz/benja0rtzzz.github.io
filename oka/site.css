@@ -1,0 +1,113 @@
+/* Oka's two public pages. Values come from the Oka design system's
+   tokens.json (washi light, yoru night); the header follows the canvas's
+   A2-Today screen. Fonts are served from this site: no third-party requests. */
+
+@font-face {
+  font-family: "Albert Sans";
+  src: url("fonts/AlbertSans-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Shippori Mincho B1";
+  src: url("fonts/ShipporiMinchoB1-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --paper: #ffffff;
+  --paper-sunk: #f5f4f1;
+  --hairline: #e4e2dd;
+  --sumi: #2e2d2b;
+  --nezumi: #6b6964;
+  --ruri: #3f5bd0;
+  --hue-kaki: #f47822;
+  --hue-fuji: #8c99c1;
+  --hue-tokiwa: #035d30;
+
+  --sans: "Albert Sans", "Hiragino Sans", system-ui, sans-serif;
+  --serif: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 6px;
+
+  --oka-ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --oka-dur-micro: 150ms;
+  --oka-dur-draw: 900ms;
+  --oka-stagger: 70ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #171614;
+    --paper-sunk: #201f1c;
+    --hairline: #34322e;
+    --sumi: #eeebe5;
+    --nezumi: #a9a59d;
+    --ruri: #94a7f6;
+    --hue-tokiwa: #3f9e6b;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--sumi);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+a { color: var(--ruri); text-underline-offset: 3px; transition: color var(--oka-dur-micro) var(--oka-ease); }
+a:focus-visible { outline: 2px solid var(--ruri); outline-offset: 2px; border-radius: 4px; }
+
+.page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 var(--space-6) var(--space-16);
+}
+
+.top { padding-top: var(--space-8); }
+.mark { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--sumi); text-decoration: none; font-size: 16px; font-weight: 500; }
+.mark svg { width: 30px; height: 30px; flex: none; }
+.mark path { fill: none; stroke-width: 16; stroke-linecap: round; }
+
+/* Type, from tokens.json. */
+.title-serif { font-family: var(--serif); font-size: 26px; line-height: 34px; font-weight: 400; margin: 0; }
+.heading { font-size: 20px; line-height: 26px; font-weight: 500; margin: 0; }
+.body { font-size: 16px; line-height: 24px; margin: 0; text-wrap: pretty; }
+.meta { font-size: 13px; line-height: 18px; color: var(--nezumi); margin: 0; }
+
+.lead { padding-top: var(--space-12); display: flex; flex-direction: column; gap: var(--space-3); }
+
+.policy { margin-top: var(--space-8); display: flex; flex-direction: column; gap: var(--space-8); }
+.policy section { display: flex; flex-direction: column; gap: var(--space-3); }
+.policy ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-2); }
+.policy li::marker { color: var(--nezumi); }
+.policy code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 14px; padding: 1px 6px; border-radius: var(--radius-sm); background: var(--paper-sunk); }
+
+.foot { margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--hairline); display: flex; flex-direction: column; gap: var(--space-2); }
+
+/* The mark draws itself once, as in the app. */
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.mark path { stroke-dasharray: 1 1; animation: draw var(--oka-dur-draw) var(--oka-ease) both; animation-delay: calc(var(--i) * var(--oka-stagger)); }
+@media (prefers-reduced-motion: reduce) {
+  .mark path { animation: none; stroke-dashoffset: 0; }
+}
+
+@media (max-width: 420px) {
+  .page { padding: 0 var(--space-4) var(--space-12); }
+  .lead { padding-top: var(--space-8); }
+}
